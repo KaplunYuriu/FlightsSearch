@@ -6,6 +6,6 @@ import { tagName } from '@ember-decorators/component';
 import style from './style';
 
 @tagName('')
-export default class SearchDropdown extends Component {
+export default class ApplicationWrapper extends Component {
   style = style;
 }
