@@ -2305,9 +2305,9 @@ ember-compatibility-helpers@^1.0.0:
     ember-cli-version-checker "^2.1.1"
     semver "^5.4.1"
 
-ember-css-modules@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ember-css-modules/-/ember-css-modules-1.0.0.tgz#7cdca78f55236ef582e6bee1aeb59ea1da14e6a7"
+ember-css-modules@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ember-css-modules/-/ember-css-modules-1.0.1.tgz#ed4401160ab7f90533c21b4d70141cffed9eaa7e"
   dependencies:
     "@ember-decorators/utils" "^2.1.0"
     broccoli-concat "^3.2.2"
