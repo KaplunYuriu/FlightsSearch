@@ -13,20 +13,11 @@
     "baseUrl": ".",
     "module": "es6",
     "paths": {
-      "flights-search/tests/*": [
-        "tests/*"
-      ],
-      "flights-search/*": [
-        "app/*"
-      ],
-      "*": [
-        "types/*"
-      ]
+      "flights-search/tests/*": ["tests/*"],
+      "flights-search/*": ["app/*", "types/ember-freestyle/*", "types/expo/*"],
+      "flights-search/mirage/*": ["mirage/*"],
+      "*": ["types/*"]
     }
   },
-  "include": [
-    "app/**/*",
-    "tests/**/*",
-    "types/**/*"
-  ]
+  "include": ["app", "tests", "types", "mirage"]
 }

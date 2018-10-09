@@ -22,7 +22,12 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    }
+    },
+
+    'ember-cli-mirage': {
+      enabled: true,
+      discoverEmberDataModels: false,
+    },
   };
 
   if (environment === 'development') {
