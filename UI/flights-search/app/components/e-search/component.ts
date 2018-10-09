@@ -22,7 +22,7 @@ const dispatchToActions = {
 
 
 @tagName('')
-class OrdersContainer extends Component {
+class SearchContainer extends Component {
   style = style;
 
   layout = hbs`{{yield (hash
@@ -32,4 +32,4 @@ class OrdersContainer extends Component {
   )}}`;
 }
 
-export default connect(stateToComputed, dispatchToActions)(OrdersContainer);
+export default connect(stateToComputed, dispatchToActions)(SearchContainer);

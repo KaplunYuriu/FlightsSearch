@@ -1,4 +1,4 @@
-import Airport from "flights-search/services/airport";
+import Airport from "flights-search/mirage/factories/airport";
 
 export interface Models {
     'airport': Airport;
