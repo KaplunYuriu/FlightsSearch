@@ -3,7 +3,7 @@ import { service } from '@ember-decorators/service';
 import _ from 'lodash';
 import { loadAirports } from 'flights-search/components/e-search/reducer';
 
-export default class Index extends Route {
+export default class Search extends Route {
   @service redux;
 
   renderTemplate(controller, model) {

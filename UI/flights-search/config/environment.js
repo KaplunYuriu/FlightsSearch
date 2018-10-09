@@ -25,7 +25,7 @@ module.exports = function(environment) {
     },
 
     'ember-cli-mirage': {
-      enabled: true,
+      enabled: false,
       discoverEmberDataModels: false,
     },
   };
