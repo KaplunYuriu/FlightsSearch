@@ -59,7 +59,6 @@
     "ember-redux-shim": "^4.0.0",
     "ember-redux-thunk-shim": "^2.5.0",
     "ember-resolver": "^4.0.0",
-    "ember-responsive-tabs": "^1.0.4",
     "ember-source": "~3.1.0",
     "ember-symbol-observable": "1.0.2",
     "ember-truth-helpers": "^2.1.0",

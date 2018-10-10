@@ -1,3 +1,5 @@
 {{#e-search as |searchHash|}}
-  {{e-search/tab-holder airports=searchHash.airports}}
+  <div class={{searchHash.style.searchBlock}}>
+    {{e-search/searchDropdown airports=this.airports}}
+  </div>
 {{/e-search}}
