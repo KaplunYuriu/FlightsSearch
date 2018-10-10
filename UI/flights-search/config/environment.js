@@ -1,5 +1,5 @@
 'use strict';
-const apiURL = process.env.API_URL || 'https://localhost:5001/api/';
+const apiURL = process.env.API_URL || 'https://localhost:5001/api';
 
 module.exports = function(environment) {
   let ENV = {

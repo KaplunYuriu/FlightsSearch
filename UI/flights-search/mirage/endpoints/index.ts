@@ -1,4 +1,4 @@
-import airports from './airports';
+import airports from 'flights-search/mirage/endpoints/airports';
 
 const endpoints = {
   airports,
