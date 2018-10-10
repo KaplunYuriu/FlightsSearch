@@ -1,0 +1,11 @@
+<ul class={{this.style.tabs}}>
+  {{#e-search/tab title="Flights" as |tab|}}
+    {{#tab.content}}
+      {{e-search/searchDropdown airports=this.airports}}
+    {{/tab.content}}
+  {{/e-search/tab}}
+
+  {{e-search/tab title="Hotels"}}
+  {{e-search/tab title="Tours"}}
+  {{e-search/tab title="Cruise"}}
+</ul>
