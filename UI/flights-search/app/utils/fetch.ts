@@ -56,7 +56,9 @@ export const formEncodedToJson = encoded => {
 function fetch(endpoint, options: FetchOptions = { headers: {} }) {
   const url = `${config.apiURL}${endpoint}`;
 
-  return f(url, options).then(handleResponse);
+  return f(url, options).then(response => {
+    return handleResponse(response);
+  });
 }
 
 export default fetch;

@@ -4,13 +4,13 @@ export enum ActionTypes {
   LoadAirports = 'LoadAirports'
 }
 
-export function createAction(type: ActionTypes, payload: any): Action {
-  return { type, payload, status: AsyncActionStatus.Pending };
-}
-
 export function loadAirports() {
-  return (dispatch, getState, { airportService }) =>
-    dispatch(createAction(ActionTypes.LoadAirports, airportService.getAirports()));
+  return (dispatch, getState, { airportService }) => {
+    return dispatch({
+      type: ActionTypes.LoadAirports,
+      payload: airportService.getAirports(),
+    });
+  }
 }
 
 export type Airport = {
@@ -31,24 +31,18 @@ const initialState: AirportsState = {
   airports: []
 };
 
-export interface Action {
-  readonly status: AsyncActionStatus;
-  readonly type: ActionTypes;
-  readonly payload?: any;
-}
-
 export default function (
   state: AirportsState = initialState,
-  action: Action
+  action
 ): AirportsState {
   switch (action.type) {
     case ActionTypes.LoadAirports:
       if (action.status === AsyncActionStatus.Successful) {
         return Object.assign({}, state, {
-          airports: action.payload,
-          isEarlyFireLoading: false,
+          airports: action.payload
         }) as AirportsState;
       }
+      return state;
 
     default:
       return state;

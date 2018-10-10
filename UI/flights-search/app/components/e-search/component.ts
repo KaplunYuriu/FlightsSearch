@@ -24,7 +24,6 @@ const dispatchToActions = {
 @tagName('')
 class SearchContainer extends Component {
   style = style;
-
   layout = hbs`{{yield (hash
     style=style
     airports=airports

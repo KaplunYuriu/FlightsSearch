@@ -11,12 +11,12 @@ export default class Search extends Route {
     const dataMustBeRefreshed = _.isEmpty(state.airports.airports);
 
     if (dataMustBeRefreshed) {
-      return this.redux.dispatch(loadAirports()).then(() => {
-        return this.render('search', {
-          outlet: 'search',
-          controller,
-        })
-      });
+      this.redux.dispatch(loadAirports());
     }
+
+    this.render('search', {
+      outlet: 'search',
+      controller,
+    })
   }
 }
