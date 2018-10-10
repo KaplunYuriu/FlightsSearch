@@ -1,11 +1,20 @@
-<ul class={{this.style.tabs}}>
-  {{#e-search/tab title="Flights" as |tab|}}
-    {{#tab.content}}
-      {{e-search/searchDropdown airports=this.airports}}
-    {{/tab.content}}
-  {{/e-search/tab}}
+{{#fullwidth-tabs as |tab|}}
+  {{#tab.pane title="Home" icon="fa fa-home"}}
+    {{e-search/searchDropdown airports=this.airports}}
+  {{/tab.pane}}
 
-  {{e-search/tab title="Hotels"}}
-  {{e-search/tab title="Tours"}}
-  {{e-search/tab title="Cruise"}}
-</ul>
+  {{#tab.pane title="Profile" icon="fa fa-profile"}}
+    <h1>Profile</h1>
+    <p>Content for profile tab goes here</p>
+  {{/tab.pane}}
+
+  {{#tab.pane title="Settings" icon="fa fa-settings"}}
+    <h1>Home</h1>
+    <p>Content for settings tab goes here</p>
+  {{/tab.pane}}
+
+  {{#tab.pane title="Message" icon="fa fa-message"}}
+    <h1>Home</h1>
+    <p>Content for message tab goes here</p>
+  {{/tab.pane}}
+{{/fullwidth-tabs}}
