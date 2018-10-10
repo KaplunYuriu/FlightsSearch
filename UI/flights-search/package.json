@@ -24,6 +24,7 @@
     "@types/ember-test-helpers": "^1.0.0",
     "@types/ember-testing-helpers": "^0.0.3",
     "@types/ember__test-helpers": "^0.7.1",
+    "@types/faker": "^4.1.4",
     "@types/qunit": "^2.5.3",
     "@types/rsvp": "^4.0.2",
     "babel-eslint": "^8.0.0",
