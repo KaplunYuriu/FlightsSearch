@@ -1,5 +1,11 @@
 {{#e-search as |searchHash|}}
   <div class={{searchHash.style.searchBlock}}>
-    {{e-search/searchDropdown airports=this.airports}}
+    <div class={{searchHash.style.row}}>
+      {{e-search/searchDropdown airports=searchHash.airports}}
+      {{e-search/searchDropdown airports=searchHash.airports}}
+    </div>
+    <div class={{searchHash.style.row}}>
+      <button type="button" class={{searchHash.style.searchButton}}>Search</button>
+    </div>
   </div>
 {{/e-search}}

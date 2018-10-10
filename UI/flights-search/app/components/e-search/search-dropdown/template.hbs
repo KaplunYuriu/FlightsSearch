@@ -1,1 +1,9 @@
-<input type="text"/> 
+<div class={{this.style.dropdownHolder}}>
+  {{#power-select
+    options=this.airports
+    selected=this._airport
+    onchange=(action "updateAirport")
+    as |airport|}}
+      <strong>{{airport.name}} [{{airport.alias}}]</strong>
+  {{/power-select}}
+</div>

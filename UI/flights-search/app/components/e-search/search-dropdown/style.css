@@ -1,0 +1,16 @@
+div:global(.ember-power-select-trigger) {
+  width: 350px;
+  height: 36px;
+  border-radius: 0;
+  text-align: center;
+}
+
+.dropdownHolder {
+  width: 380px;
+  display: flex;
+  justify-content: center;
+}
+
+span:global(.ember-power-select-selected-item) {
+  line-height: 36px;
+}
