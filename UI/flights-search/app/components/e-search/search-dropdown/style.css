@@ -1,3 +1,16 @@
+@import '../../../styles/sizes.css';
+
+@media screen and (max-width: 1024px) {
+  div:global(.ember-power-select-trigger) {
+    margin-bottom: 10px;
+    width: 300px !important;
+  }
+
+  .dropdownHolder {
+    width: 310px;
+  }
+}
+
 div:global(.ember-power-select-trigger) {
   width: 350px;
   height: 36px;
