@@ -1,0 +1,10 @@
+.loader {
+  background: url(/assets/images/loader.gif);
+  position: fixed;
+  left: 49%;
+  top: 40%;
+  height: 50px;
+  width: 50px;
+  z-index: 10001;
+  background-size: 50px;
+}

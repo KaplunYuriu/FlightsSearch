@@ -3,3 +3,7 @@
   {{outlet}}
   <img class={{this.style.background}} />
 </div>
+
+{{#if this.isLoading}}
+  {{e-application/loader}}
+{{/if}}

@@ -1,5 +1,5 @@
-{{#e-application}}
-  {{#e-application/wrapper}}
+{{#e-application as |applicationHash|}}
+  {{#e-application/wrapper isLoading=applicationHash.isLoading}}
     {{outlet}}
   {{/e-application/wrapper}}
 {{/e-application}}

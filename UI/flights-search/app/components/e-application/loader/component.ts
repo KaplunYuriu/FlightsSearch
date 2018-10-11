@@ -6,7 +6,6 @@ import { tagName } from '@ember-decorators/component';
 import style from './style';
 
 @tagName('')
-export default class ApplicationWrapper extends Component {
+export default class Loader extends Component {
   style = style;
-  isLoading: boolean;
 }
