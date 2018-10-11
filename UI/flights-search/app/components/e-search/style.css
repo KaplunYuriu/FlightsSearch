@@ -17,11 +17,12 @@
   width: 100%;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: $break-large) {
   .row {
     width: 170px;
     margin-bottom: 10px;
   }
+
   .searchBlock {
     padding: 5px;
     width: 100%;

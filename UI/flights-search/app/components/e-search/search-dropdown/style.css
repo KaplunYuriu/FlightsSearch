@@ -1,6 +1,4 @@
-@import '../../../styles/sizes.css';
-
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: $break-large) {
   div:global(.ember-power-select-trigger) {
     margin-bottom: 10px;
     width: 300px !important;

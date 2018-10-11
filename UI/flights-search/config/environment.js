@@ -1,5 +1,6 @@
 'use strict';
 const apiURL = process.env.API_URL || 'https://localhost:5001/api';
+const cssVariables = require('./css-variables');
 
 module.exports = function(environment) {
   let ENV = {
@@ -8,6 +9,7 @@ module.exports = function(environment) {
     rootURL: '/',
     apiURL,
     locationType: 'auto',
+    cssVariables: cssVariables,
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
