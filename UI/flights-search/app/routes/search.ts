@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember-decorators/service';
 import _ from 'lodash';
-import { loadAirports } from 'flights-search/components/e-search/reducer';
+import { loadAirports, updateDepartureAirport, updateDestinationAirport } from 'flights-search/components/e-search/reducer';
 
 export default class Search extends Route {
   @service redux;
@@ -11,7 +11,10 @@ export default class Search extends Route {
     const dataMustBeRefreshed = _.isEmpty(state.airports.airports);
 
     if (dataMustBeRefreshed) {
-      this.redux.dispatch(loadAirports());
+      this.redux.dispatch(loadAirports())
+        .then((airports) => {
+          this.redux.dispatch(updateDepartureAirport(airports.payload[0]));
+        })
     }
 
     this.render('search', {

@@ -1,7 +1,8 @@
 <div class={{this.style.dropdownHolder}}>
   {{#power-select
     options=this.airports
-    selected=this._airport
+    disabled=this.isDisabled
+    selected=this.selectedAirport
     onchange=(action "updateAirport")
     as |airport|}}
       <strong>{{airport.name}} [{{airport.alias}}]</strong>

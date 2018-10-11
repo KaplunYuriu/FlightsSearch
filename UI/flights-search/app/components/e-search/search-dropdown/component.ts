@@ -12,15 +12,17 @@ import _ from 'lodash';
 export default class SearchDropdown extends Component {
   style = style;
   airports: Airport[];
+  updateHandler: any;
+  disabled: boolean;
+  selectedAirport: Airport;
 
-  _airport: Airport;
-
-  didReceiveAttrs() {
-    this.set('_airport', this.airports[0]);
+  @computed('selectedAirport')
+  get isDisabled() {
+    return _.isUndefined(this.selectedAirport);
   }
 
   @action
   updateAirport(airport) {
-    this.set('_airport', airport);
+    this.updateHandler(airport);
   }
 }

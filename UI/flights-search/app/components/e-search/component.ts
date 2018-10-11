@@ -4,20 +4,27 @@ import { tagName } from '@ember-decorators/component';
 import { connect } from 'ember-redux';
 // @ts-ignore -- need to generate style modules
 import style from './style';
-import { loadAirports } from 'flights-search/components/e-search/reducer';
+import { updateDepartureAirport, updateDestinationAirport } from 'flights-search/components/e-search/reducer';
 
 const stateToComputed = state => {
   const {
-    airports
+    departureAirports,
+    destinationAirports,
+    selectedDepartureAirport,
+    selectedDestinationAirport
   } = state.airports;
 
   return {
-    airports
+    departureAirports,
+    destinationAirports,
+    selectedDepartureAirport,
+    selectedDestinationAirport
   };
 };
 
 const dispatchToActions = {
-  loadAirports
+  updateDepartureAirport,
+  updateDestinationAirport
 };
 
 
@@ -26,8 +33,12 @@ class SearchContainer extends Component {
   style = style;
   layout = hbs`{{yield (hash
     style=style
-    airports=airports
-    loadAirports=loadAirports
+    departureAirports=departureAirports    
+    destinationAirports=destinationAirports
+    selectedDepartureAirport=selectedDepartureAirport
+    selectedDestinationAirport=selectedDestinationAirport
+    updateDepartureAirport=(action "updateDepartureAirport")
+    updateDestinationAirport=(action "updateDestinationAirport")
   )}}`;
 }
 
