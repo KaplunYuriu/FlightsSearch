@@ -37,7 +37,9 @@ export function updateDepartureAirport(airport: Airport) {
     return dispatch({
       type: ActionTypes.UpdateAvailableDestinationAirports,
       payload: routesService.getAvailableDestinations(airport).then((resp) => {
-        dispatch(updateDestinationAirport(resp.payload[0]));
+        dispatch(updateDestinationAirport(resp[0]));
+
+        return resp;
       })
     });
   };
