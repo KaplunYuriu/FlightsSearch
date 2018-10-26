@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using FlightsSearch.Models;
+using System.Threading.Tasks;
+using FlightsSearch.Entities;
+using FlightsSearch.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightsSearch.Controllers
@@ -8,21 +10,17 @@ namespace FlightsSearch.Controllers
     [ApiController]
     public class AirportsController : Controller
     {
-        public ActionResult<IEnumerable<Airport>> Index()
+        private readonly IAirportsService _airportsService;
+
+        public AirportsController(IAirportsService airportsService)
         {
-            return new[]
-            {
-                new Airport
-                {
-                    Alias = "Test",
-                    Altitude = 12,
-                    City = "Poltava",
-                    Country = "UK",
-                    Latitude = 12,
-                    Longitude = 12,
-                    Name = "Name"
-                }
-            };
+            _airportsService = airportsService;
+        }
+        
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Airport>>> Search([FromQuery]string pattern)
+        {
+            return await _airportsService.GetAirportsAsync(pattern);
         }
     }
 }

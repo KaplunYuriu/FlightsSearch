@@ -1,18 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using FlightsSearch.External.Api;
+using FlightsSearch.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Refit;
 
 namespace FlightsSearch
 {
+    public static class ConfigurationProperties
+    {
+        public static string ApullateFlightsApiUrl = "ApullateFlightsApiUrl";
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -25,6 +27,12 @@ namespace FlightsSearch
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var settings = new RefitSettings();
+
+            services.AddRefitClient<IApullateFlightsApi>(settings)
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(Configuration[ConfigurationProperties.ApullateFlightsApiUrl]));
+
+            services.AddSingleton<IAirportsService, AirportsService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

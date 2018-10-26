@@ -1,4 +1,4 @@
-﻿namespace FlightsSearch.Models
+﻿namespace FlightsSearch.Entities
 {
     public class Airport
     {
