@@ -6,14 +6,18 @@ using Refit;
 namespace FlightsSearch.External.Api
 {
 
-    public class GeoDbResponse
+    public class GeoDbResponse<T>
     {
-        public List<Location> Data { get; set; }
+        public T Data { get; set; }
     }
 
     public interface IGeoDbService
     {
-        [Get("/geo/cities")]
-        Task<GeoDbResponse> GetCities([AliasAs("namePrefix")]string pattern);
+        [Get("/cities")]
+        Task<GeoDbResponse<List<Location>>> GetCities([AliasAs("namePrefix")]string pattern);
+
+        [Get("/cities/{cityId}/")]
+
+        Task<GeoDbResponse<Location>> GetCityDetails([AliasAs("cityId")]int id);
     }
 }

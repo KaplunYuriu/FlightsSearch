@@ -16,11 +16,17 @@ namespace FlightsSearch.Controllers
         {
             _airportsService = airportsService;
         }
-        
-        [HttpGet]
+
+        [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<Airport>>> Search([FromQuery]string pattern)
         {
             return await _airportsService.GetAirportsAsync(pattern);
+        }
+
+        [HttpGet("ClosestToCity")]
+        public async Task<ActionResult<SortedList<double, Airport>>> ClosestToCity([FromQuery] int cityId)
+        {
+            return await _airportsService.GetClosestToCity(cityId);
         }
     }
 }
