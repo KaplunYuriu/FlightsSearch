@@ -13,6 +13,7 @@ namespace FlightsSearch
     public static class ConfigurationProperties
     {
         public static string ApullateFlightsApiUrl = "ApullateFlightsApiUrl";
+        public static string GeoDbApiUrl = "GeoDbApiUrl";
     }
 
     public class Startup
@@ -32,7 +33,12 @@ namespace FlightsSearch
             services.AddRefitClient<IApullateFlightsApi>(settings)
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(Configuration[ConfigurationProperties.ApullateFlightsApiUrl]));
 
+            services.AddRefitClient<IGeoDbService>(settings)
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(Configuration[ConfigurationProperties.GeoDbApiUrl]));
+
             services.AddSingleton<IAirportsService, AirportsService>();
+            services.AddSingleton<ICitiesService, CitiesService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
