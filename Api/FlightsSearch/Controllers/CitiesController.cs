@@ -17,7 +17,7 @@ namespace FlightsSearch.Controllers
             _citiesService = citiesService;
         }
 
-        [HttpGet]
+        [HttpGet("Search")]
         public async Task<ActionResult<IEnumerable<Location>>> Search([FromQuery]string pattern)
         {
             return await _citiesService.GetCitiesAsync(pattern);

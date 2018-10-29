@@ -40,12 +40,12 @@ namespace FlightsSearch.Services
 
             var airports = await _flightsApi.GetAirports(city.Country);
 
-            var airportsByDistance = new SortedList<double, Airport>(airports.Count, new DescComparer<double>());
+            var airportsByDistance = new SortedList<double, Airport>(airports.Count/*, new DescComparer<double>()*/);
             foreach (var airport in airports)
             {
-                double distanceToCity = DistanceCalculator.GetDistance(city, airport);
+                double distanceToAirport = city.DistanceTo(airport);
 
-                airportsByDistance.Add(distanceToCity, airport);
+                airportsByDistance.Add(distanceToAirport, airport);
             }
 
             return airportsByDistance;
