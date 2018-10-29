@@ -1,5 +1,6 @@
 ﻿using System;
 using FlightsSearch.External.Api;
+using FlightsSearch.Providers;
 using FlightsSearch.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,8 +37,12 @@ namespace FlightsSearch
             services.AddRefitClient<IGeoDbService>(settings)
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(Configuration[ConfigurationProperties.GeoDbApiUrl]));
 
-            services.AddSingleton<IAirportsService, AirportsService>();
-            services.AddSingleton<ICitiesService, CitiesService>();
+            services.AddSingleton<IAirportsProvider, AirportsProvider>();
+            services.AddSingleton<IRoutesProvider, RoutesProvider>();
+            
+            services.AddTransient<IAirportsService, AirportsService>();
+            services.AddTransient<ICitiesService, CitiesService>();
+            services.AddTransient<IRoutesService, RoutesService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FlightsSearch.Entities;
 using FlightsSearch.External.Api;
-using FlightsSearch.Infrastructure;
 
 namespace FlightsSearch.Services
 {
