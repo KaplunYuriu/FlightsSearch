@@ -31,5 +31,14 @@ namespace FlightsSearch.Controllers
 
             return await _routesService.GetRoutesForAirport(airport);
         }
+
+        [HttpGet("between")]
+        public async Task<ActionResult<List<Route>>> Between(string departure, string destination)
+        {
+            var departureAirport = await _airportsProvider.GetAirport(departure);
+            var destinationAirport = await _airportsProvider.GetAirport(destination);
+
+            return await _routesService.GetRoutesBetween(departureAirport, destinationAirport);
+        }
     }
 }
