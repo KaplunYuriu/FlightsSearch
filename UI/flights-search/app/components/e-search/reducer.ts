@@ -2,7 +2,7 @@ import { AsyncActionStatus } from "flights-search/types";
 import _ from "lodash";
 
 export enum ActionTypes {
-  LoadAirports = 'LoadAirports',
+  SearchAirports = 'SearchAirports',
   UpdateDepartureAirport = 'UpdateDepartureAirport',
   UpdateDestinationAirport = 'UpdateDestinationAirport',
   UpdateAvailableDestinationAirports = 'UpdateAvailableDestinationAirport'
@@ -18,11 +18,11 @@ export type Airport = {
   altitude: string;
 }
 
-export function loadAirports() {
+export function searchAirports(pattern: string) {
   return (dispatch, getState, { airportsService }) => {
     return dispatch({
-      type: ActionTypes.LoadAirports,
-      payload: airportsService.getAirports()
+      type: ActionTypes.SearchAirports,
+      payload: airportsService.searchAirports(pattern)
     });
   }
 }
@@ -37,9 +37,9 @@ export function updateDepartureAirport(airport: Airport) {
     return dispatch({
       type: ActionTypes.UpdateAvailableDestinationAirports,
       payload: routesService.getAvailableDestinations(airport).then((resp) => {
-        dispatch(updateDestinationAirport(resp[0]));
+        dispatch(updateDestinationAirport(resp[0].destination));
 
-        return resp;
+        return _.map(resp, (route) => route.destination);
       })
     });
   };
@@ -76,8 +76,9 @@ export default function (
   action
 ): AirportsState {
   switch (action.type) {
-    case ActionTypes.LoadAirports:
+    case ActionTypes.SearchAirports:
       if (action.status === AsyncActionStatus.Successful) {
+        console.log(action.payload);
         return Object.assign({}, state, {
           sourceAirports: action.payload,
           departureAirports: action.payload

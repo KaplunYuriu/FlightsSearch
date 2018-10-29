@@ -4,7 +4,7 @@ import { tagName } from '@ember-decorators/component';
 import { connect } from 'ember-redux';
 // @ts-ignore -- need to generate style modules
 import style from './style';
-import { updateDepartureAirport, updateDestinationAirport } from 'flights-search/components/e-search/reducer';
+import { updateDepartureAirport, updateDestinationAirport, searchAirports } from 'flights-search/components/e-search/reducer';
 
 const stateToComputed = state => {
   const {
@@ -23,6 +23,7 @@ const stateToComputed = state => {
 };
 
 const dispatchToActions = {
+  searchAirports,
   updateDepartureAirport,
   updateDestinationAirport
 };
@@ -37,6 +38,7 @@ class SearchContainer extends Component {
     destinationAirports=destinationAirports
     selectedDepartureAirport=selectedDepartureAirport
     selectedDestinationAirport=selectedDestinationAirport
+    searchAirports=(action "searchAirports")
     updateDepartureAirport=(action "updateDepartureAirport")
     updateDestinationAirport=(action "updateDestinationAirport")
   )}}`;

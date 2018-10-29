@@ -1,8 +1,12 @@
 {{#e-search as |searchHash|}}
   <div class={{searchHash.style.searchBlock}}>
     <div class={{searchHash.style.row}}>
-      {{e-search/searchDropdown airports=searchHash.departureAirports updateHandler=searchHash.updateDepartureAirport selectedAirport=searchHash.selectedDepartureAirport}}
-      {{e-search/searchDropdown airports=searchHash.destinationAirports updateHandler=searchHash.updateDestinationAirport selectedAirport=searchHash.selectedDestinationAirport}}
+      {{e-search/searchDropdown airports=searchHash.departureAirports searchHandler=searchHash.searchAirports 
+                                updateHandler=searchHash.updateDepartureAirport selectedAirport=searchHash.selectedDepartureAirport
+                                disabled=false }}
+      {{e-search/searchDropdown airports=searchHash.destinationAirports searchHandler=searchAirports.searchAirports 
+                                updateHandler=searchHash.updateDestinationAirport selectedAirport=searchHash.selectedDestinationAirport
+                                disabled=(eq searchHash.selectedDestinationAirport undefined)}}
     </div>
     <div class={{searchHash.style.row}}>
       <button type="button" class={{searchHash.style.searchButton}}>Search</button>

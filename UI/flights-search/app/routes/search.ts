@@ -8,14 +8,14 @@ export default class Search extends Route {
 
   renderTemplate(controller, model) {
     const state = this.redux.getState();
-    const dataMustBeRefreshed = _.isEmpty(state.airports.airports);
+    /*const dataMustBeRefreshed = _.isEmpty(state.airports.airports);
 
     if (dataMustBeRefreshed) {
       this.redux.dispatch(loadAirports())
         .then((airports) => {
           this.redux.dispatch(updateDepartureAirport(airports.payload[0]));
         })
-    }
+    }*/
 
     this.render('search', {
       outlet: 'search',

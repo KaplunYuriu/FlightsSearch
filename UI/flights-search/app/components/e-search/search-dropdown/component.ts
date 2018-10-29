@@ -13,12 +13,21 @@ export default class SearchDropdown extends Component {
   style = style;
   airports: Airport[];
   updateHandler: any;
+  searchHandler: any;
   disabled: boolean;
   selectedAirport: Airport;
 
   @computed('selectedAirport')
   get isDisabled() {
-    return _.isUndefined(this.selectedAirport);
+    return this.disabled;
+  }
+
+  @action
+  search(query) {
+    if (query.length < 3)
+      return;
+
+    this.searchHandler(query);
   }
 
   @action

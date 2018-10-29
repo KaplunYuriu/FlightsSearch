@@ -3,6 +3,7 @@
     options=this.airports
     disabled=this.isDisabled
     selected=this.selectedAirport
+    search=(action "search")
     onchange=(action "updateAirport")
     as |airport|}}
       <strong>{{airport.name}} [{{airport.alias}}]</strong>

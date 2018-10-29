@@ -1,5 +1,5 @@
 'use strict';
-const apiURL = process.env.API_URL || 'https://localhost:5001/api';
+const apiURL = process.env.API_URL || 'https://localhost:44300/api/';
 const cssVariables = require('./css-variables');
 
 module.exports = function(environment) {
@@ -27,7 +27,7 @@ module.exports = function(environment) {
     },
 
     'ember-cli-mirage': {
-      enabled: true,
+      enabled: false,
       discoverEmberDataModels: false,
     },
   };
