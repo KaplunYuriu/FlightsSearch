@@ -1,18 +1,20 @@
 {{#e-search as |searchHash|}}
   <div class={{searchHash.style.searchBlock}}>
     <div class={{searchHash.style.row}}>
-      {{e-search/searchDropdown airports=searchHash.departureAirports searchHandler=searchHash.searchAirports 
-                                updateHandler=searchHash.updateDepartureAirport selectedAirport=searchHash.selectedDepartureAirport
-                                disabled=false }}
-      {{e-search/searchDropdown airports=searchHash.destinationAirports searchHandler=searchAirports.searchAirports 
-                                updateHandler=searchHash.updateDestinationAirport selectedAirport=searchHash.selectedDestinationAirport
-                                disabled=(eq searchHash.selectedDestinationAirport undefined)}}
+      {{e-search/searchDropdown airports=searchHash.departureAirports searchHandler=searchHash.searchAirports
+        updateHandler=searchHash.updateDepartureAirport selectedAirport=searchHash.selectedDepartureAirport
+        disabled=false }}
+      {{e-search/searchDropdown airports=searchHash.destinationAirports searchHandler=searchAirports.searchAirports
+        updateHandler=searchHash.updateDestinationAirport selectedAirport=searchHash.selectedDestinationAirport
+        disabled=(is-empty searchHash.destinationAirports)}}
     </div>
     <div class={{searchHash.style.row}}>
       <button type="button" class={{searchHash.style.searchButton}}>Search</button>
     </div>
   </div>
-  <div class={{searchHash.style.searchBlock}}>
-    {{e-search/routes routes=searchHash.routes}}
-  </div>
+  {{#unless (is-empty searchHash.routes)}}
+    <div class={{searchHash.style.searchBlock}}>
+      {{e-search/routes routes=searchHash.routes}}
+    </div>
+  {{/unless}}
 {{/e-search}}

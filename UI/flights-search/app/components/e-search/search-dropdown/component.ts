@@ -17,9 +17,17 @@ export default class SearchDropdown extends Component {
   disabled: boolean;
   selectedAirport: Airport;
 
-  @computed('selectedAirport')
+  @computed('airports')
   get isDisabled() {
     return this.disabled;
+  }
+
+  @computed('isDisabled')
+  get placeholder() {
+    if (this.disabled)
+      return undefined;
+
+    return "Start typing...";
   }
 
   @action

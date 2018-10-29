@@ -2,7 +2,7 @@
 {
     public class Route
     {
-        public Airport Source { get; set; }
+        public Airport Departure { get; set; }
 
         public Airport Destination { get; set; }
 

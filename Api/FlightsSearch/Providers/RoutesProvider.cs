@@ -52,7 +52,7 @@ namespace FlightsSearch.Providers
         {
             return new Route
             {
-                Source = await _airportsProvider.GetAirport(plainRoute.SrcAirport),
+                Departure = await _airportsProvider.GetAirport(plainRoute.SrcAirport),
                 Destination = await _airportsProvider.GetAirport(plainRoute.DestAirport),
                 Airline = new Airline
                 {

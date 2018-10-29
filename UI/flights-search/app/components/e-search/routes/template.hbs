@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <th>From</th>
+    <th>To</th>
+    <th>Airline</th>
+    <th>Can buy a ticket?</th>
+  </thead>
+  {{#each routes as |route|}}
+    <tr>
+      <td>{{route.departure}}</td>
+      <td>{{route.destination}}</td>
+      <td>{{route.airline}}</td>
+      <td>{{if route.isActive "Yes" "No"}}</td>
+    </tr>
+  {{/each}}
+</table>

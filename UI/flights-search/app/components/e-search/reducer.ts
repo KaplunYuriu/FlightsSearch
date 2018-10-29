@@ -22,7 +22,7 @@ export type Airport = {
 export type Route = {
   departure: string;
   destination: string;
-  airlineName: string;
+  airline: string;
   isActive: boolean;
 }
 
@@ -46,16 +46,8 @@ export function updateDepartureAirport(airport: Airport) {
       type: ActionTypes.UpdateAvailableDestinationAirports,
       payload: routesService.getAvailableDestinations(airport).then((resp) => {
         const destinationAirports = resp.map(function (route) { return route.destination });
-        const availableRoutes = resp.map(function (route) {
-          return {
-            departure: route.departure.name,
-            destination: route.destionation.name,
-            airlineName: route.airline.name,
-            isActive: route.airline.active
-          }
-        });
+        const availableRoutes = mapToRoutes(resp);
 
-        dispatch(updateDestinationAirport(resp[0].destination));
         dispatch(updateAvailableRoutes(availableRoutes))
 
         return destinationAirports;
@@ -72,12 +64,30 @@ export function updateAvailableRoutes(routes: Route[]) {
 }
 
 export function updateDestinationAirport(airport: Airport) {
-  return dispatch => dispatch({
-    type: ActionTypes.UpdateDestinationAirport,
-    payload: airport
-  });
+  return (dispatch, getState, { routesService }) => {
+    dispatch({
+      type: ActionTypes.UpdateDestinationAirport,
+      payload: airport
+    })
+
+    return routesService.getRoutesBetween(getState().airports.selectedDepartureAirport, airport).then(resp => {
+      const availableRoutes = mapToRoutes(resp);
+      
+      return dispatch(updateAvailableRoutes(availableRoutes));
+    });
+  };
 }
 
+function mapToRoutes(response): Route[] {
+  return response.map(function (route) {
+    return {
+      departure: route.departure.name,
+      destination: route.destination.name,
+      airline: route.airline.name,
+      isActive: route.airline.active
+    }
+  });
+}
 
 export type AirportsState = {
   sourceAirports: Airport[];
@@ -120,7 +130,6 @@ export default function (
         selectedDepartureAirport: action.payload,
         routes: []
       });
-
 
     case ActionTypes.UpdateDestinationAirport:
       return Object.assign({}, state, {

@@ -11,14 +11,16 @@ const stateToComputed = state => {
     departureAirports,
     destinationAirports,
     selectedDepartureAirport,
-    selectedDestinationAirport
+    selectedDestinationAirport,
+    routes
   } = state.airports;
 
   return {
     departureAirports,
     destinationAirports,
     selectedDepartureAirport,
-    selectedDestinationAirport
+    selectedDestinationAirport,
+    routes
   };
 };
 
@@ -38,6 +40,7 @@ class SearchContainer extends Component {
     destinationAirports=destinationAirports
     selectedDepartureAirport=selectedDepartureAirport
     selectedDestinationAirport=selectedDestinationAirport
+    routes=routes
     searchAirports=(action "searchAirports")
     updateDepartureAirport=(action "updateDepartureAirport")
     updateDestinationAirport=(action "updateDestinationAirport")
