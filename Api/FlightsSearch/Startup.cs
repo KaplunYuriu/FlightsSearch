@@ -13,8 +13,9 @@ namespace FlightsSearch
 {
     public static class ConfigurationProperties
     {
-        public static string ApullateFlightsApiUrl = "ApullateFlightsApiUrl";
-        public static string GeoDbApiUrl = "GeoDbApiUrl";
+        public static string ApullateFlightsApiUrl = nameof(ApullateFlightsApiUrl);
+        public static string GeoDbApiUrl = nameof(GeoDbApiUrl);
+        public static string EmberAppUrl = nameof(EmberAppUrl);
     }
 
     public class Startup
@@ -58,6 +59,11 @@ namespace FlightsSearch
             {
                 app.UseHsts();
             }
+
+            app.UseCors(builder =>
+                builder.WithOrigins(Configuration[ConfigurationProperties.EmberAppUrl])
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
 
             app.UseHttpsRedirection();
             app.UseMvc();
