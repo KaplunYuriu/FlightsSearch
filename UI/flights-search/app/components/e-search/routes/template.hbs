@@ -1,4 +1,4 @@
-<table>
+<table class={{this.style.routesTable}}>
   <thead>
     <th>From</th>
     <th>To</th>
@@ -7,8 +7,8 @@
   </thead>
   {{#each routes as |route|}}
     <tr>
-      <td>{{route.departure}}</td>
-      <td>{{route.destination}}</td>
+      <td>{{route.departure.name}}</td>
+      <td><a href="#" onclick={{action updateDestinationAirport route.destination}}>{{route.destination.name}}</a></td>
       <td>{{route.airline}}</td>
       <td>{{if route.isActive "Yes" "No"}}</td>
     </tr>

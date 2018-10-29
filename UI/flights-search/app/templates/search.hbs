@@ -8,13 +8,16 @@
         updateHandler=searchHash.updateDestinationAirport selectedAirport=searchHash.selectedDestinationAirport
         disabled=(is-empty searchHash.destinationAirports)}}
     </div>
-    <div class={{searchHash.style.row}}>
-      <button type="button" class={{searchHash.style.searchButton}}>Search</button>
-    </div>
   </div>
   {{#unless (is-empty searchHash.routes)}}
     <div class={{searchHash.style.searchBlock}}>
-      {{e-search/routes routes=searchHash.routes}}
+      {{e-search/routes routes=searchHash.routes updateDestinationAirport=searchHash.updateDestinationAirport}}
     </div>
+
+    {{#if (not-eq searchHash.selectedDestinationAirport)}}
+      <div class={{searchHash.style.row}}>
+        <button type="button" onclick={{action searchHash.clearDestinationAirport}} class={{searchHash.style.searchButton}}>Clear</button>
+      </div>
+    {{/if}}
   {{/unless}}
 {{/e-search}}

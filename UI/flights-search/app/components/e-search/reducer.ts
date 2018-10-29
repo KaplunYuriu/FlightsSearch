@@ -20,8 +20,8 @@ export type Airport = {
 }
 
 export type Route = {
-  departure: string;
-  destination: string;
+  departure: Airport;
+  destination: Airport;
   airline: string;
   isActive: boolean;
 }
@@ -48,7 +48,7 @@ export function updateDepartureAirport(airport: Airport) {
         const destinationAirports = resp.map(function (route) { return route.destination });
         const availableRoutes = mapToRoutes(resp);
 
-        dispatch(updateAvailableRoutes(availableRoutes))
+        dispatch(updateAvailableRoutes(availableRoutes));
 
         return destinationAirports;
       })
@@ -70,19 +70,29 @@ export function updateDestinationAirport(airport: Airport) {
       payload: airport
     })
 
+    if (_.isUndefined(airport))
+      return;
+
     return routesService.getRoutesBetween(getState().airports.selectedDepartureAirport, airport).then(resp => {
       const availableRoutes = mapToRoutes(resp);
-      
+
       return dispatch(updateAvailableRoutes(availableRoutes));
     });
+  };
+}
+
+export function clearDestinationAirport() {
+  return (dispatch, getState, { routesService }) => {
+    dispatch(updateDestinationAirport(undefined));
+    return dispatch(updateDepartureAirport(getState().airports.selectedDepartureAirport));
   };
 }
 
 function mapToRoutes(response): Route[] {
   return response.map(function (route) {
     return {
-      departure: route.departure.name,
-      destination: route.destination.name,
+      departure: route.departure,
+      destination: route.destination,
       airline: route.airline.name,
       isActive: route.airline.active
     }
