@@ -27,16 +27,18 @@ namespace FlightsSearch.Providers
 
         public async Task<List<Route>> GetRoutes(Airport airport)
         {
-            if (!CachedResource.TryGetValue(airport, out var cacheElement) || cacheElement.IsExpired(ElementLifetime))
+            var cacheElement = this[airport];
+
+            if (cacheElement == null)
             {
                 var plainRoutes = await _flightsApi.GetRoutes(airport.Alias);
 
                 var convertedPlainRoutes = await Task.WhenAll(plainRoutes.Select(async r => await ConvertToRoute(r)));
 
-                CachedResource[airport] = new DictionaryCacheElement<List<Route>>(convertedPlainRoutes.ToList());
+                this[airport] = convertedPlainRoutes.ToList();
             }
 
-            var routes = CachedResource[airport].Value;
+            var routes = this[airport];
             var airlines = await GetAirlinesForRoutes(routes);
 
             var airlinesDictionary = airlines.ToDictionary(x => x.Alias, x => x);

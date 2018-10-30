@@ -8,9 +8,11 @@ namespace FlightsSearch.Infrastructure.Caching
         public TValue Value;
 
         private DateTime _lastUpdated;
+        private readonly TimeSpan _elementLifetime;
 
-        public DictionaryCacheElement(TValue value)
+        public DictionaryCacheElement(TValue value, TimeSpan elementLifetime)
         {
+            _elementLifetime = elementLifetime;
             UpdateValue(value);
         }
 
@@ -20,16 +22,13 @@ namespace FlightsSearch.Infrastructure.Caching
             _lastUpdated = DateTime.UtcNow;
         }
 
-        public bool IsExpired(TimeSpan elementLifetime)
-        {
-            return _lastUpdated + elementLifetime < DateTime.UtcNow;
-        }
+        public bool IsEpired => _lastUpdated + _elementLifetime < DateTime.UtcNow;
     }
 
     public class DictionaryLruCache<TKey, TValue> where TValue : class
     {
-        protected readonly Dictionary<TKey, DictionaryCacheElement<TValue>> CachedResource = new Dictionary<TKey, DictionaryCacheElement<TValue>>();
-        protected readonly TimeSpan ElementLifetime;
+        private readonly Dictionary<TKey, DictionaryCacheElement<TValue>> _cachedResource = new Dictionary<TKey, DictionaryCacheElement<TValue>>();
+        private readonly TimeSpan _elementLifetime;
 
         private readonly LinkedList<TKey> _lru = new LinkedList<TKey>();
 
@@ -39,7 +38,7 @@ namespace FlightsSearch.Infrastructure.Caching
 
         protected DictionaryLruCache(TimeSpan elementLifetime, int maxElements = 50)
         {
-            ElementLifetime = elementLifetime;
+            _elementLifetime = elementLifetime;
             _maxCacheSize = maxElements;
         }
 
@@ -49,8 +48,16 @@ namespace FlightsSearch.Infrastructure.Caching
             {
                 lock (_lock)
                 {
-                    if (!CachedResource.TryGetValue(key, out var cacheElement))
+                    if (!_cachedResource.TryGetValue(key, out var cacheElement))
                         return null;
+
+                    if (cacheElement.IsEpired)
+                    {
+                        _cachedResource.Remove(_lru.Last.Value);
+                        _lru.RemoveLast();
+
+                        return null;
+                    }
 
                     _lru.Remove(key);
                     _lru.AddFirst(key);
@@ -62,16 +69,16 @@ namespace FlightsSearch.Infrastructure.Caching
             {
                 lock (_lock)
                 {
-                    if (CachedResource.TryGetValue(key, out var cacheElement))
-                        CachedResource[key].UpdateValue(cacheElement.Value);
+                    if (_cachedResource.TryGetValue(key, out _))
+                        _cachedResource[key].UpdateValue(value);
                     else
                     {
-                        CachedResource.Add(key, new DictionaryCacheElement<TValue>(value));
+                        _cachedResource.Add(key, new DictionaryCacheElement<TValue>(value, _elementLifetime));
                         _lru.AddFirst(key);
 
                         if (_lru.Count > _maxCacheSize)
                         {
-                            CachedResource.Remove(_lru.Last.Value);
+                            _cachedResource.Remove(_lru.Last.Value);
                             _lru.RemoveLast();
                         }
                     }

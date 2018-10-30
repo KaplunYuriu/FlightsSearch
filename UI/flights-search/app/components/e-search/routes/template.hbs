@@ -1,16 +1,19 @@
-<table class={{this.style.routesTable}}>
-  <thead>
-    <th>From</th>
-    <th>To</th>
-    <th>Airline</th>
-    <th>Can buy a ticket?</th>
-  </thead>
-  {{#each routes as |route|}}
-    <tr>
-      <td>{{route.departure.name}}</td>
-      <td><a href="#" onclick={{action updateDestinationAirport route.destination}}>{{route.destination.name}}</a></td>
-      <td>{{route.airline}}</td>
-      <td>{{if route.isActive "Yes" "No"}}</td>
-    </tr>
-  {{/each}}
-</table>
+<h3>Available routes</h3>
+<div>
+  <table class={{this.style.routesTable}}>
+    <thead>
+      <th>From</th>
+      <th>To</th>
+      <th>Airline</th>
+      <th>Can buy a ticket?</th>
+    </thead>
+    {{#each routes as |route|}}
+      <tr>
+        <td>{{route.departure.name}}</td>
+        <td><a href="#" onclick={{action updateDestinationAirport route.destination}}>{{route.destination.name}}</a></td>
+        <td>{{route.airline}}</td>
+        <td>{{if route.isActive "Yes" "No"}}</td>
+      </tr>
+    {{/each}}
+  </table>
+</div>

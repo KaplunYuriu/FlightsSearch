@@ -2,12 +2,12 @@
   <div class={{searchHash.style.searchBlock}}>
     <div class={{searchHash.style.row}}>
       <label class={{searchHash.style.label}}>Departure airport</label>
-      {{e-search/searchDropdown options=searchHash.departureAirports searchHandler=searchHash.searchAirports
+      {{e-search/searchDropdown options=searchHash.departureAirports searchHandler=searchHash.searchAirports searchEnabled=true
         updateHandler=searchHash.updateDepartureAirport selectedOption=searchHash.selectedDepartureAirport
         disabled=false}}
 
       <label class={{searchHash.style.label}}>Destination airport</label>
-      {{e-search/searchDropdown options=searchHash.destinationAirports searchHandler=searchAirports.searchAirports
+      {{e-search/searchDropdown options=searchHash.destinationAirports searchEnabled=false
         updateHandler=searchHash.updateDestinationAirport selectedOption=searchHash.selectedDestinationAirport
         disabled=(is-empty searchHash.destinationAirports)}}
     </div>
@@ -18,7 +18,7 @@
 
     <div class={{searchHash.style.rightRow}}>
       <label class={{searchHash.style.label}}>Departure city</label>
-      {{e-search/searchDropdown options=searchHash.locations searchHandler=searchHash.searchLocations
+      {{e-search/searchDropdown options=searchHash.locations searchHandler=searchHash.searchLocations searchEnabled=true
         updateHandler=searchHash.updateDepartureLocation selectedOption=searchHash.selectedDepartureLocation
         disabled=false}}
     </div>

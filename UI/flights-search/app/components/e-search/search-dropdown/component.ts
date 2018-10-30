@@ -16,13 +16,14 @@ export default class SearchDropdown extends Component {
   disabled: boolean;
   selectedOption: any;
   optionDisplayValue: any;
+  searchEnabled: boolean;
 
-  @computed('this.options')
+  @computed('options')
   get isDisabled() {
     return this.disabled;
   }
 
-  @computed('this.isDisabled')
+  @computed('isDisabled')
   get placeholder() {
     if (this.disabled)
       return undefined;

@@ -23,7 +23,9 @@ namespace FlightsSearch.Providers
 
         public async Task<Airport> GetAirport(string alias)
         {
-            if (!CachedResource.TryGetValue(alias, out var cacheElement) || cacheElement.IsExpired(ElementLifetime))
+            var cacheElement = this[alias];
+
+            if (cacheElement == null)
             {
                 var airports = await _flightsApi.GetAirports(alias);
 
@@ -37,15 +39,15 @@ namespace FlightsSearch.Providers
                     if (airportWithCorrectAlias == null)
                         throw new ArgumentException($"More than one airport found for alias: {alias}");
 
-                    CachedResource[alias] = new DictionaryCacheElement<Airport>(airportWithCorrectAlias);
+                    this[alias] = airportWithCorrectAlias;
                 }
                 else
                 {
-                    CachedResource[alias] = new DictionaryCacheElement<Airport>(airports.First());
+                    this[alias] = airports.First();
                 }
             }
 
-            return CachedResource[alias].Value;
+            return this[alias];
         }
     }
 }
