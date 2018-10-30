@@ -35,19 +35,18 @@ namespace FlightsSearch.Providers
 
                 var convertedPlainRoutes = await Task.WhenAll(plainRoutes.Select(async r => await ConvertToRoute(r)));
 
+                var airlines = await GetAirlinesForRoutes(convertedPlainRoutes.ToList());
+
+                var airlinesDictionary = airlines.ToDictionary(x => x.Alias, x => x);
+                foreach (var route in convertedPlainRoutes)
+                {
+                    route.Airline = airlinesDictionary[route.Airline.Alias];
+                }
+
                 this[airport] = convertedPlainRoutes.ToList();
             }
 
-            var routes = this[airport];
-            var airlines = await GetAirlinesForRoutes(routes);
-
-            var airlinesDictionary = airlines.ToDictionary(x => x.Alias, x => x);
-            foreach (var route in routes)
-            {
-                route.Airline = airlinesDictionary[route.Airline.Alias];
-            }
-
-            return routes;
+            return this[airport];
         }
 
         private async Task<Route> ConvertToRoute(PlainRoute plainRoute)
@@ -71,8 +70,6 @@ namespace FlightsSearch.Providers
             var airlines = await Task.WhenAll(distinctRoutesByAirlines.Select(async r =>
             {
                 var availableAirlines = await _flightsApi.GetAirlines(r.Airline.Alias);
-                if (availableAirlines.Count > 1)
-                    throw new ArgumentException($"More than one airline found by given alias: {r.Airline}");
 
                 return availableAirlines[0];
             }));

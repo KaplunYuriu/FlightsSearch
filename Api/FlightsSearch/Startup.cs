@@ -1,4 +1,5 @@
 ﻿using System;
+using FlightsSearch.Entities;
 using FlightsSearch.External.Api;
 using FlightsSearch.Providers;
 using FlightsSearch.Services;
@@ -59,6 +60,8 @@ namespace FlightsSearch
             {
                 app.UseHsts();
             }
+
+            Airport.RoutesProvider = app.ApplicationServices.GetService<IRoutesProvider>();
 
             app.UseCors(builder =>
                 builder.WithOrigins(Configuration[ConfigurationProperties.EmberAppUrl])

@@ -36,9 +36,6 @@ namespace FlightsSearch.Providers
                 {
                     var airportWithCorrectAlias = airports.FirstOrDefault(a => string.Equals(a.Alias, alias));
 
-                    if (airportWithCorrectAlias == null)
-                        throw new ArgumentException($"More than one airport found for alias: {alias}");
-
                     this[alias] = airportWithCorrectAlias;
                 }
                 else
