@@ -1,14 +1,29 @@
 {{#e-search as |searchHash|}}
   <div class={{searchHash.style.searchBlock}}>
     <div class={{searchHash.style.row}}>
-      {{e-search/searchDropdown airports=searchHash.departureAirports searchHandler=searchHash.searchAirports
-        updateHandler=searchHash.updateDepartureAirport selectedAirport=searchHash.selectedDepartureAirport
-        disabled=false }}
-      {{e-search/searchDropdown airports=searchHash.destinationAirports searchHandler=searchAirports.searchAirports
-        updateHandler=searchHash.updateDestinationAirport selectedAirport=searchHash.selectedDestinationAirport
+      <label class={{searchHash.style.label}}>Departure airport</label>
+      {{e-search/searchDropdown options=searchHash.departureAirports searchHandler=searchHash.searchAirports
+        updateHandler=searchHash.updateDepartureAirport selectedOption=searchHash.selectedDepartureAirport
+        disabled=false}}
+
+      <label class={{searchHash.style.label}}>Destination airport</label>
+      {{e-search/searchDropdown options=searchHash.destinationAirports searchHandler=searchAirports.searchAirports
+        updateHandler=searchHash.updateDestinationAirport selectedOption=searchHash.selectedDestinationAirport
         disabled=(is-empty searchHash.destinationAirports)}}
     </div>
+    
+    <div class={{searchHash.style.row}}>
+      <label>Or</label> 
+    </div>
+
+    <div class={{searchHash.style.rightRow}}>
+      <label class={{searchHash.style.label}}>Departure city</label>
+      {{e-search/searchDropdown options=searchHash.locations searchHandler=searchHash.searchLocations
+        updateHandler=searchHash.updateDepartureLocation selectedOption=searchHash.selectedDepartureLocation
+        disabled=false}}
+    </div>
   </div>
+
   {{#unless (is-empty searchHash.routes)}}
     <div class={{searchHash.style.searchBlock}}>
       {{e-search/routes routes=searchHash.routes updateDestinationAirport=searchHash.updateDestinationAirport}}
@@ -19,5 +34,11 @@
         <button type="button" onclick={{action searchHash.clearDestinationAirport}} class={{searchHash.style.searchButton}}>Clear</button>
       </div>
     {{/if}}
+  {{/unless}}
+
+  {{#unless (is-empty searchHash.availableAirports)}}
+    <div class={{searchHash.style.searchBlock}}>
+      {{e-search/availableAirports airports=searchHash.availableAirports updateDepartureAirport=searchHash.updateDepartureAirport}}
+    </div>
   {{/unless}}
 {{/e-search}}

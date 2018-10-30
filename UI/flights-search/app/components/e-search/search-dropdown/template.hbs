@@ -1,12 +1,12 @@
 <div class={{this.style.dropdownHolder}}>
   {{#power-select
-    options=this.airports
+    options=this.options
     disabled=this.isDisabled
-    selected=this.selectedAirport
+    selected=this.selectedOption
     placeholder=this.placeholder
     search=(action "search")
-    onchange=(action "updateAirport")
-    as |airport|}}
-      <strong>{{airport.name}} [{{airport.alias}}]</strong>
+    onchange=(action "updateSelectedOption")
+    as |option|}}
+      <strong>{{compute (action "displayValue") option}}</strong>
   {{/power-select}}
 </div>

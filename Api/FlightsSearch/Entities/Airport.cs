@@ -7,6 +7,7 @@ namespace FlightsSearch.Entities
         public string Name { get; set; }
         public string Alias { get; set; }
         public int Altitude { get; set; }
+        public override string DisplayName => $"{Name} [{Alias}]";
 
         public override int GetHashCode()
         {

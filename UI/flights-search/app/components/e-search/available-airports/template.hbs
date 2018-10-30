@@ -1,0 +1,13 @@
+<h3>Closest airports</h3> 
+<table class={{this.style.locationsTable}}>
+  <thead>
+    <th>Distance to your city</th>
+    <th>Airport</th>
+  </thead>
+  {{#each-in airports as |distance airport|}}
+    <tr>
+      <td>{{distance}} km.</td>
+      <td><a href="#" onclick={{action updateDepartureAirport airport}}>{{airport.name}}</a></td>
+    </tr>
+  {{/each-in}}
+</table>

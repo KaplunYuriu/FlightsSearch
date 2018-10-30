@@ -4,10 +4,13 @@ import { tagName } from '@ember-decorators/component';
 import { connect } from 'ember-redux';
 // @ts-ignore -- need to generate style modules
 import style from './style';
-import { updateDepartureAirport, updateDestinationAirport, searchAirports, clearDestinationAirport } from 'flights-search/components/e-search/reducer';
+import { updateDepartureAirport, updateDestinationAirport, searchAirports, clearDestinationAirport, searchLocations, updateDepartureLocation } from 'flights-search/components/e-search/reducer';
 
 const stateToComputed = state => {
   const {
+    availableAirports,
+    locations,
+    selectedDepartureLocation,
     departureAirports,
     destinationAirports,
     selectedDepartureAirport,
@@ -16,6 +19,9 @@ const stateToComputed = state => {
   } = state.airports;
 
   return {
+    availableAirports,
+    locations,
+    selectedDepartureLocation,
     departureAirports,
     destinationAirports,
     selectedDepartureAirport,
@@ -28,7 +34,9 @@ const dispatchToActions = {
   searchAirports,
   updateDepartureAirport,
   updateDestinationAirport,
-  clearDestinationAirport
+  clearDestinationAirport,
+  searchLocations,
+  updateDepartureLocation
 };
 
 
@@ -37,6 +45,9 @@ class SearchContainer extends Component {
   style = style;
   layout = hbs`{{yield (hash
     style=style
+    availableAirports=availableAirports
+    locations=locations
+    selectedDepartureLocation=selectedDepartureLocation
     departureAirports=departureAirports    
     destinationAirports=destinationAirports
     selectedDepartureAirport=selectedDepartureAirport
@@ -46,6 +57,8 @@ class SearchContainer extends Component {
     updateDepartureAirport=(action "updateDepartureAirport")
     updateDestinationAirport=(action "updateDestinationAirport")
     clearDestinationAirport=(action "clearDestinationAirport")
+    searchLocations=(action "searchLocations")
+    updateDepartureLocation=(action "updateDepartureLocation")
   )}}`;
 }
 

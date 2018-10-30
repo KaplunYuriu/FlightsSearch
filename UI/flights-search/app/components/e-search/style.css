@@ -18,6 +18,17 @@
   width: 100%;
 }
 
+.rightRow {
+  composes: row;
+
+  justify-content: start;
+}
+
+.label {
+  width: 150px;
+  margin-left: 20px;
+}
+
 @media screen and (max-width: $break-large) {
   .row {
     width: 170px;
