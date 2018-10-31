@@ -55,6 +55,8 @@ namespace Graph.Engines
 
             log($"Starting search from `{_resultMap.Start}` to {_resultMap.End}.");
 
+            var visitedNotes = new HashSet<AsyncNode<T>>();
+
             do
             {
                 _nodeVisits++;
@@ -68,7 +70,7 @@ namespace Graph.Engines
                 {
                     log($"Current edge is `{edge.ConnectedNode.Data}` for node `{node}`.");
                     var childNode = edge.ConnectedNode;
-                    if (childNode == null || childNode.Visited)
+                    if (childNode == null || visitedNotes.Contains(childNode))
                     {
                         log($"Edge `{edge.ConnectedNode.Data}` has been visited already.");
                         continue;
@@ -85,7 +87,7 @@ namespace Graph.Engines
                     }
                 }
 
-                node.Visited = true;
+                visitedNotes.Add(node);
 
                 if (node.Equals(_resultMap.End))
                 {

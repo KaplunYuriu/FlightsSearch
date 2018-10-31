@@ -44,7 +44,7 @@ namespace FlightsSearch.Controllers
             if (destinationAirport == null)
                 throw new ArgumentException($"Airport with alias '{destination}' doesn't exist.");
 
-            return await _routesService.GetRoutesBetween(departureAirport, destinationAirport);
+            return await _routesService.GetRoutesBetween(departureAirport, destinationAirport).ConfigureAwait(false);
         }
     }
 }

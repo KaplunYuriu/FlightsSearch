@@ -28,6 +28,7 @@ namespace FlightsSearch.Providers
 
             if (cacheElement == null)
             {
+                //flights api throws a lot of timeout exceptions.
                 var airports = await FailSafe.TryTwice(() => _flightsApi.GetAirports(alias));
 
                 if (!airports.Any())

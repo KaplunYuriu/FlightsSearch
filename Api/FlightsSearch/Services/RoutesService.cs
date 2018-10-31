@@ -45,8 +45,7 @@ namespace FlightsSearch.Services
                 var destinationAirport = map.Values[i + 1];
 
                 var routes = await departureAirport.GetRoutes();
-                path.Add(routes.Find(x => x.Departure.Equals(departureAirport) && x.Destination.Equals(destinationAirport)));
-
+                path.Add(routes.Find(x => x.Departure.Equals(departureAirport) && (x.Destination != null && x.Destination.Equals(destinationAirport))));
             }
 
             return path;

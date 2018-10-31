@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlightsSearch.Entities;
 using FlightsSearch.External.Api;
+using FlightsSearch.Infrastructure;
 using FlightsSearch.Infrastructure.Caching;
 using Microsoft.EntityFrameworkCore.Internal;
 
@@ -31,7 +32,7 @@ namespace FlightsSearch.Providers
 
             if (cacheElement == null)
             {
-                var plainRoutes = await _flightsApi.GetRoutes(airport.Alias);
+                var plainRoutes = await FailSafe.TryTwice(() => _flightsApi.GetRoutes(airport.Alias));
 
                 var convertedPlainRoutes = await Task.WhenAll(plainRoutes.Select(async r => await ConvertToRoute(r)));
 

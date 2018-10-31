@@ -41,7 +41,7 @@ namespace FlightsSearch.Infrastructure.Caching
 
         private readonly Type _currentCacheType = typeof(TValue);
 
-        protected DictionaryLruCache(TimeSpan elementLifetime, int maxElements = 50)
+        protected DictionaryLruCache(TimeSpan elementLifetime, int maxElements = 2000)
         {
             _elementLifetime = elementLifetime;
             _maxCacheSize = maxElements;
