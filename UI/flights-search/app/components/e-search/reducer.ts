@@ -5,11 +5,10 @@ export enum ActionTypes {
   SearchAirports = 'SearchAirports',
   SearchLocations = 'SearchLocations',
   UpdateDepartureLocation = 'UpdateDepartureLocation',
-  UpdateAvailableAirports = 'UpdateAvailableAirports',
+  UpdateClosestAirports = 'UpdateClosestAirports',
   UpdateDepartureAirport = 'UpdateDepartureAirport',
   UpdateDestinationAirport = 'UpdateDestinationAirport',
-  UpdateAvailableRoutes = 'UpdateAvailableRoutes',
-  UpdateAvailableDestinationAirports = 'UpdateAvailableDestinationAirport'
+  UpdateAvailableRoutes = 'UpdateAvailableRoutes'
 }
 
 export type Airport = {
@@ -61,7 +60,7 @@ export function updateDepartureLocation(location: Location) {
     });
 
     return dispatch({
-      type: ActionTypes.UpdateAvailableAirports,
+      type: ActionTypes.UpdateClosestAirports,
       payload: airportsService.findClosestAirports(location.id)
     });
   }
@@ -69,21 +68,9 @@ export function updateDepartureLocation(location: Location) {
 
 export function updateDepartureAirport(airport: Airport) {
   return (dispatch, getState, { routesService }) => {
-    dispatch({
+    return dispatch({
       type: ActionTypes.UpdateDepartureAirport,
       payload: airport
-    });
-
-    return dispatch({
-      type: ActionTypes.UpdateAvailableDestinationAirports,
-      payload: routesService.getAvailableDestinations(airport).then((resp) => {
-        const destinationAirports = resp.map(function (route) { return route.destination });
-        const availableRoutes = mapToRoutes(resp);
-
-        dispatch(updateAvailableRoutes(availableRoutes));
-
-        return destinationAirports;
-      })
     });
   };
 }
@@ -97,26 +84,18 @@ export function updateAvailableRoutes(routes: Route[]) {
 
 export function updateDestinationAirport(airport: Airport) {
   return (dispatch, getState, { routesService }) => {
-    dispatch({
+    return dispatch({
       type: ActionTypes.UpdateDestinationAirport,
       payload: airport
     })
-
-    if (_.isUndefined(airport))
-      return;
-
-    return routesService.getRoutesBetween(getState().airports.selectedDepartureAirport, airport).then(resp => {
-      const availableRoutes = mapToRoutes(resp);
-
-      return dispatch(updateAvailableRoutes(availableRoutes));
-    });
   };
 }
 
-export function clearDestinationAirport() {
+export function clearState() {
   return (dispatch, getState, { routesService }) => {
     dispatch(updateDestinationAirport(undefined));
-    return dispatch(updateDepartureAirport(getState().airports.selectedDepartureAirport));
+    dispatch(updateDepartureAirport(undefined));
+    dispatch(updateDepartureLocation(undefined));
   };
 }
 
@@ -132,9 +111,8 @@ function mapToRoutes(response): Route[] {
 }
 
 export type AirportsState = {
-  availableAirports: Map<number, Airport>;
-  departureAirports: Airport[],
-  destinationAirports: Airport[],
+  closestAirports: Map<number, Airport>;
+  airports: Airport[],
   locations: Location[],
 
   routes: Route[],
@@ -145,9 +123,8 @@ export type AirportsState = {
 };
 
 const initialState: AirportsState = {
-  availableAirports: undefined,
-  departureAirports: [],
-  destinationAirports: [],
+  closestAirports: undefined,
+  airports: [],
   locations: [],
 
   routes: [],
@@ -165,9 +142,10 @@ export default function (
     case ActionTypes.SearchAirports:
       if (action.status === AsyncActionStatus.Successful) {
         return Object.assign({}, state, {
-          departureAirports: action.payload
+          airports: action.payload
         }) as AirportsState;
       }
+      break;
     
     case ActionTypes.SearchLocations:
       if (action.status === AsyncActionStatus.Successful) {
@@ -175,25 +153,24 @@ export default function (
           locations: action.payload
         }) as AirportsState;
       }
+      break;
     
     case ActionTypes.UpdateDepartureLocation:
       return Object.assign({}, state, {
-        selectedDepartureLocation: action.payload,
-        selectedDepartureAirport: undefined,
-        destinationAirports: [],
-        routes: []
+        selectedDepartureLocation: action.payload
       });
+      
 
-    case ActionTypes.UpdateAvailableAirports:
+    case ActionTypes.UpdateClosestAirports:
       if (action.status === AsyncActionStatus.Successful) {
         return Object.assign({}, state, {
-          availableAirports: action.payload
+          closestAirports: action.payload
         }) as AirportsState;
       }
+      break;
 
     case ActionTypes.UpdateDepartureAirport:
       return Object.assign({}, state, {
-        selectedDestinationAirport: action.payload !== state.selectedDepartureAirport ? undefined : state.selectedDestinationAirport,
         selectedDepartureAirport: action.payload,
         locations: [],
         routes: []
@@ -209,12 +186,9 @@ export default function (
         routes: action.payload
       });
 
-    case ActionTypes.UpdateAvailableDestinationAirports:
-      return Object.assign({}, state, {
-        destinationAirports: action.payload
-      }) as AirportsState;
-
     default:
       return state;
   }
+
+  return state;
 }

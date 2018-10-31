@@ -4,26 +4,24 @@ import { tagName } from '@ember-decorators/component';
 import { connect } from 'ember-redux';
 // @ts-ignore -- need to generate style modules
 import style from './style';
-import { updateDepartureAirport, updateDestinationAirport, searchAirports, clearDestinationAirport, searchLocations, updateDepartureLocation } from 'flights-search/components/e-search/reducer';
+import { updateDepartureAirport, updateDestinationAirport, searchAirports, clearState, searchLocations, updateDepartureLocation } from 'flights-search/components/e-search/reducer';
 
 const stateToComputed = state => {
   const {
-    availableAirports,
+    closestAirports,
     locations,
     selectedDepartureLocation,
-    departureAirports,
-    destinationAirports,
+    airports,
     selectedDepartureAirport,
     selectedDestinationAirport,
     routes
   } = state.airports;
 
   return {
-    availableAirports,
+    closestAirports,
     locations,
     selectedDepartureLocation,
-    departureAirports,
-    destinationAirports,
+    airports,
     selectedDepartureAirport,
     selectedDestinationAirport,
     routes
@@ -34,7 +32,7 @@ const dispatchToActions = {
   searchAirports,
   updateDepartureAirport,
   updateDestinationAirport,
-  clearDestinationAirport,
+  clearState,
   searchLocations,
   updateDepartureLocation
 };
@@ -45,18 +43,17 @@ class SearchContainer extends Component {
   style = style;
   layout = hbs`{{yield (hash
     style=style
-    availableAirports=availableAirports
+    closestAirports=closestAirports
     locations=locations
     selectedDepartureLocation=selectedDepartureLocation
-    departureAirports=departureAirports    
-    destinationAirports=destinationAirports
+    airports=airports    
     selectedDepartureAirport=selectedDepartureAirport
     selectedDestinationAirport=selectedDestinationAirport
     routes=routes
     searchAirports=(action "searchAirports")
     updateDepartureAirport=(action "updateDepartureAirport")
     updateDestinationAirport=(action "updateDestinationAirport")
-    clearDestinationAirport=(action "clearDestinationAirport")
+    clearState=(action "clearState")
     searchLocations=(action "searchLocations")
     updateDepartureLocation=(action "updateDepartureLocation")
   )}}`;

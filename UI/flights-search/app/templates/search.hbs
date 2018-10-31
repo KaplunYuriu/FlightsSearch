@@ -2,14 +2,12 @@
   <div class={{searchHash.style.searchBlock}}>
     <div class={{searchHash.style.row}}>
       <label class={{searchHash.style.label}}>Departure airport</label>
-      {{e-search/searchDropdown options=searchHash.departureAirports searchHandler=searchHash.searchAirports searchEnabled=true
-        updateHandler=searchHash.updateDepartureAirport selectedOption=searchHash.selectedDepartureAirport
-        disabled=false}}
+      {{e-search/searchDropdown options=searchHash.airports searchHandler=searchHash.searchAirports
+        updateHandler=searchHash.updateDepartureAirport selectedOption=searchHash.selectedDepartureAirport}}
 
       <label class={{searchHash.style.label}}>Destination airport</label>
-      {{e-search/searchDropdown options=searchHash.destinationAirports searchEnabled=false
-        updateHandler=searchHash.updateDestinationAirport selectedOption=searchHash.selectedDestinationAirport
-        disabled=(is-empty searchHash.destinationAirports)}}
+      {{e-search/searchDropdown options=searchHash.airports searchHandler=searchHash.searchAirports
+        updateHandler=searchHash.updateDestinationAirport selectedOption=searchHash.selectedDestinationAirport}}
     </div>
     
     <div class={{searchHash.style.row}}>
@@ -18,9 +16,8 @@
 
     <div class={{searchHash.style.rightRow}}>
       <label class={{searchHash.style.label}}>Departure city</label>
-      {{e-search/searchDropdown options=searchHash.locations searchHandler=searchHash.searchLocations searchEnabled=true
-        updateHandler=searchHash.updateDepartureLocation selectedOption=searchHash.selectedDepartureLocation
-        disabled=false}}
+      {{e-search/searchDropdown options=searchHash.locations searchHandler=searchHash.searchLocations
+        updateHandler=searchHash.updateDepartureLocation selectedOption=searchHash.selectedDepartureLocation}}
     </div>
   </div>
 
@@ -31,14 +28,14 @@
 
     {{#if (not-eq searchHash.selectedDestinationAirport)}}
       <div class={{searchHash.style.row}}>
-        <button type="button" onclick={{action searchHash.clearDestinationAirport}} class={{searchHash.style.searchButton}}>Clear</button>
+        <button type="button" onclick={{action searchHash.clearState}} class={{searchHash.style.searchButton}}>Clear</button>
       </div>
     {{/if}}
   {{/unless}}
 
-  {{#unless (is-empty searchHash.availableAirports)}}
+  {{#unless (is-empty searchHash.closestAirports)}}
     <div class={{searchHash.style.searchBlock}}>
-      {{e-search/availableAirports airports=searchHash.availableAirports updateDepartureAirport=searchHash.updateDepartureAirport}}
+      {{e-search/availableAirports airports=searchHash.closestAirports updateDepartureAirport=searchHash.updateDepartureAirport}}
     </div>
   {{/unless}}
 {{/e-search}}
