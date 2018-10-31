@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FlightsSearch.Infrastructure;
 using FlightsSearch.Providers;
 
 namespace FlightsSearch.Entities
@@ -32,6 +30,11 @@ namespace FlightsSearch.Entities
 
             var aiprort = (Airport)obj;
             return aiprort.Alias.Equals(Alias);
+        }
+
+        public override string ToString()
+        {
+            return Alias;
         }
     }
 }

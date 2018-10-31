@@ -29,7 +29,7 @@ namespace FlightsSearch.Controllers
             if (airport == null)
                 throw new ArgumentException($"Airport with alias '{alias}' doesn't exist.");
 
-            return await _routesService.GetRoutesForAirport(airport);
+            return await airport.GetRoutes();
         }
 
         [HttpGet("between")]

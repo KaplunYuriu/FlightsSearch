@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NLog;
 
 namespace FlightsSearch.Infrastructure.Caching
 {
@@ -36,6 +37,10 @@ namespace FlightsSearch.Infrastructure.Caching
 
         private readonly object _lock = new object();
 
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
+        private readonly Type _currentCacheType = typeof(TValue);
+
         protected DictionaryLruCache(TimeSpan elementLifetime, int maxElements = 50)
         {
             _elementLifetime = elementLifetime;
@@ -48,11 +53,18 @@ namespace FlightsSearch.Infrastructure.Caching
             {
                 lock (_lock)
                 {
+                    var log = new Action<string>((message) =>
+                        _logger.Debug($"Get Element {_currentCacheType}: {message}"));
+
                     if (!_cachedResource.TryGetValue(key, out var cacheElement))
+                    {
+                        log($"Nothing for `{key.ToString()}`");
                         return null;
+                    }
 
                     if (cacheElement.IsEpired)
                     {
+                        log($"Element for `{key.ToString()}` is expired.");
                         _cachedResource.Remove(_lru.Last.Value);
                         _lru.RemoveLast();
 
@@ -62,6 +74,7 @@ namespace FlightsSearch.Infrastructure.Caching
                     _lru.Remove(key);
                     _lru.AddFirst(key);
 
+                    log($"Element for `{key.ToString()}` retrieved.");
                     return cacheElement.Value;
                 }
             }
@@ -69,10 +82,18 @@ namespace FlightsSearch.Infrastructure.Caching
             {
                 lock (_lock)
                 {
+                    var log = new Action<string>((message) =>
+                        _logger.Debug($"Set Element {_currentCacheType}: {message}"));
+
                     if (_cachedResource.TryGetValue(key, out _))
+                    {
+                        log($"Cache contains element for `{key.ToString()}`. Updating existing value.");
                         _cachedResource[key].UpdateValue(value);
+                    }
+                        
                     else
                     {
+                        log($"Added element for `{key.ToString()}`.");
                         _cachedResource.Add(key, new DictionaryCacheElement<TValue>(value, _elementLifetime));
                         _lru.AddFirst(key);
 

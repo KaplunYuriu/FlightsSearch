@@ -10,8 +10,6 @@ namespace FlightsSearch.Services
 {
     public interface IRoutesService
     {
-        Task<List<Route>> GetRoutesForAirport(Airport airport);
-
         Task<List<Route>> GetRoutesBetween(Airport departure, Airport destination);
     }
 
@@ -22,11 +20,6 @@ namespace FlightsSearch.Services
         public RoutesService(IRoutesProvider routesProvider)
         {
             _routesProvider = routesProvider;
-        }
-
-        public async Task<List<Route>> GetRoutesForAirport(Airport airport)
-        {
-            return await _routesProvider.GetRoutes(airport);
         }
 
         public async Task<List<Route>> GetRoutesBetween(Airport departure, Airport destination)
