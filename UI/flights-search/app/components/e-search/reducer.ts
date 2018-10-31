@@ -8,7 +8,8 @@ export enum ActionTypes {
   UpdateClosestAirports = 'UpdateClosestAirports',
   UpdateDepartureAirport = 'UpdateDepartureAirport',
   UpdateDestinationAirport = 'UpdateDestinationAirport',
-  UpdateAvailableRoutes = 'UpdateAvailableRoutes'
+  SearchForRoutes = 'SearchForRoutes',
+  ClearState = 'ClearState'
 }
 
 export type Airport = {
@@ -75,11 +76,26 @@ export function updateDepartureAirport(airport: Airport) {
   };
 }
 
-export function updateAvailableRoutes(routes: Route[]) {
-  return dispatch => dispatch({
-    type: ActionTypes.UpdateAvailableRoutes,
-    payload: routes
-  });
+export function searchForRoutes() {
+  return (dispatch, getState, { routesService }) => {
+    var departureAirport = getState().airports.selectedDepartureAirport;
+    var destinationAirport = getState().airports.selectedDestinationAirport;
+
+    if (_.isNil(destinationAirport)) {
+      return dispatch({
+        type: ActionTypes.SearchForRoutes,
+        payload: routesService.getAvailableDestinations(departureAirport).then(resp => {
+          return mapToRoutes(resp);
+        })
+      });
+    }
+    return dispatch({
+      type: ActionTypes.SearchForRoutes,
+      payload: routesService.getRoutesBetween(departureAirport, destinationAirport).then(resp => {
+        return mapToRoutes(resp);
+      })
+    });
+  }
 }
 
 export function updateDestinationAirport(airport: Airport) {
@@ -93,9 +109,10 @@ export function updateDestinationAirport(airport: Airport) {
 
 export function clearState() {
   return (dispatch, getState, { routesService }) => {
-    dispatch(updateDestinationAirport(undefined));
-    dispatch(updateDepartureAirport(undefined));
-    dispatch(updateDepartureLocation(undefined));
+    return dispatch({
+      type: ActionTypes.ClearState,
+      payload: undefined
+    })
   };
 }
 
@@ -127,7 +144,7 @@ const initialState: AirportsState = {
   airports: [],
   locations: [],
 
-  routes: [],
+  routes: undefined,
 
   selectedDepartureAirport: undefined,
   selectedDepartureLocation: undefined,
@@ -181,10 +198,13 @@ export default function (
         selectedDestinationAirport: action.payload
       });
 
-    case ActionTypes.UpdateAvailableRoutes:
+    case ActionTypes.SearchForRoutes:
       return Object.assign({}, state, {
         routes: action.payload
       });
+
+    case ActionTypes.ClearState: 
+      return Object.assign({}, state, initialState);
 
     default:
       return state;

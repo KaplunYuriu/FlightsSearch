@@ -19,19 +19,22 @@
       {{e-search/searchDropdown options=searchHash.locations searchHandler=searchHash.searchLocations
         updateHandler=searchHash.updateDepartureLocation selectedOption=searchHash.selectedDepartureLocation}}
     </div>
+
+    <div class={{searchHash.style.row}}>
+      <button type="button" onclick={{action searchHash.searchForRoutes}} class={{searchHash.style.searchButton}}>Search</button>
+      <button type="button" onclick={{action searchHash.clearState}} class={{searchHash.style.searchButton}}>Clear</button>
+    </div>
   </div>
 
-  {{#unless (is-empty searchHash.routes)}}
-    <div class={{searchHash.style.searchBlock}}>
-      {{e-search/routes routes=searchHash.routes updateDestinationAirport=searchHash.updateDestinationAirport}}
-    </div>
-
-    {{#if (not-eq searchHash.selectedDestinationAirport)}}
-      <div class={{searchHash.style.row}}>
-        <button type="button" onclick={{action searchHash.clearState}} class={{searchHash.style.searchButton}}>Clear</button>
-      </div>
+  {{#if (not (eq searchHash.routes undefined))}}
+    {{#if (is-empty searchHash.routes)}}
+      No Results
+    {{else}}
+      <div class={{searchHash.style.searchBlock}}>
+        {{e-search/routes routes=searchHash.routes updateDepartureAirport=searchHash.updateDepartureAirport}}
+      </div>      
     {{/if}}
-  {{/unless}}
+  {{/if}}
 
   {{#unless (is-empty searchHash.closestAirports)}}
     <div class={{searchHash.style.searchBlock}}>

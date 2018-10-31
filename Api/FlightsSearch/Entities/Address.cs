@@ -13,6 +13,9 @@ namespace FlightsSearch.Entities
         //https://andrew.hedges.name/experiments/haversine/
         public double DistanceTo(Address location)
         {
+            if (location == null)
+                return double.NaN;
+
             const int earthRadius = 6373;
 
             var lat1 = ToRadian(Latitude);

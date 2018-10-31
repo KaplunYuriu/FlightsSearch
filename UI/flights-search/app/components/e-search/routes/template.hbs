@@ -2,15 +2,17 @@
 <div>
   <table class={{this.style.routesTable}}>
     <thead>
+      <th>#</th>
       <th>From</th>
       <th>To</th>
       <th>Airline</th>
       <th>Can buy a ticket?</th>
     </thead>
-    {{#each routes as |route|}}
+    {{#each routes as |route index|}}
       <tr>
+        <td>{{inc index}}</td>
         <td>{{route.departure.name}}</td>
-        <td><a href="#" onclick={{action updateDestinationAirport route.destination}}>{{route.destination.name}}</a></td>
+        <td><a href="#" onclick={{action updateDepartureAirport route.destination}}>{{route.destination.name}}</a></td>
         <td>{{route.airline}}</td>
         <td>{{if route.isActive "Yes" "No"}}</td>
       </tr>
