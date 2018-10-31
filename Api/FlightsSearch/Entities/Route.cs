@@ -7,5 +7,7 @@
         public Airport Destination { get; set; }
 
         public Airline Airline { get; set; }
+
+        public double Distance => Departure.DistanceTo(Destination);
     }
 }

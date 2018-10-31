@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightsSearch", "FlightsSearch\FlightsSearch.csproj", "{FA1153B7-F8A5-4734-8AD5-DD5C5B0C74CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightsSearch", "FlightsSearch\FlightsSearch.csproj", "{FA1153B7-F8A5-4734-8AD5-DD5C5B0C74CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "Graph\Graph.csproj", "{111E5FD8-54D8-4079-B387-4C6C25B5B1B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{FA1153B7-F8A5-4734-8AD5-DD5C5B0C74CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA1153B7-F8A5-4734-8AD5-DD5C5B0C74CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA1153B7-F8A5-4734-8AD5-DD5C5B0C74CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{111E5FD8-54D8-4079-B387-4C6C25B5B1B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{111E5FD8-54D8-4079-B387-4C6C25B5B1B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{111E5FD8-54D8-4079-B387-4C6C25B5B1B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{111E5FD8-54D8-4079-B387-4C6C25B5B1B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

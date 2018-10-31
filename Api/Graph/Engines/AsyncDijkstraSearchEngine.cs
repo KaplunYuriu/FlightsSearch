@@ -1,36 +1,48 @@
-﻿using FlightsSearch.Search.Graph;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FlightsSearch.Entities;
+using Graph.Entities;
 
-namespace FlightsSearch.Search
+namespace Graph.Engines
 {
-    public class SearchEngine
+    class AsyncDijkstraSearchEngine<T> : IAsyncSearchEngine<T>
     {
-        private AirportNode Start;
-        private AirportNode End;
-
         private int NodeVisits;
         public double ShortestPathLenght;
         public double ShortestPathCost;
 
-        public SearchEngine(AirportNode start, AirportNode end)
+        private Map<T> _resultMap;
+        
+        public async Task<Map<T>> GetMap(AsyncNode<T> start, AsyncNode<T> end)
         {
-            Start = start;
-            End = end;
+            _resultMap = new Map<T>
+            {
+                Start = start,
+                End = end
+            };
+
+            await ProcessNodes();
+
+            var shortestPath = new List<AsyncNode<T>> {_resultMap.End};
+
+            await BuildShortestPath(shortestPath, _resultMap.End);
+
+            shortestPath.Reverse();
+
+            _resultMap.Path = shortestPath;
+
+            return _resultMap;
         }
 
-        private async Task SearchInGraph()
+        private async Task ProcessNodes()
         {
             NodeVisits = 0;
 
-            Start.MinCostToStart = 0;
+            _resultMap.Start.MinCostToStart = 0;
 
-            var prioQueue = new List<AirportNode>
+            var prioQueue = new List<AsyncNode<T>>
             {
-                Start
+                _resultMap.Start
             };
 
             do
@@ -58,15 +70,15 @@ namespace FlightsSearch.Search
 
                 node.Visited = true;
 
-                if (node.Equals(End))
+                if (node.Equals(_resultMap.End))
                 {
-                    End = node;
+                    _resultMap.End = node;
                     return;
                 }
             } while (prioQueue.Any());
         }
 
-        private async Task BuildShortestPath(List<AirportNode> list, AirportNode node)
+        private async Task BuildShortestPath(List<AsyncNode<T>> list, AsyncNode<T> node)
         {
             if (node.NearestToStart == null)
                 return;
@@ -77,19 +89,6 @@ namespace FlightsSearch.Search
             ShortestPathCost += edges.Single(x => x.ConnectedNode.Equals(node.NearestToStart)).Cost;
 
             await BuildShortestPath(list, node.NearestToStart);
-        }
-
-        public async Task<List<Route>> Search()
-        {
-            await SearchInGraph();
-
-            var shortestPath = new List<AirportNode>();
-            shortestPath.Add(End);
-            Task.WaitAny(BuildShortestPath(shortestPath, End));
-
-            shortestPath.Reverse();
-            
-            return new List<Route>();
         }
     }
 }
