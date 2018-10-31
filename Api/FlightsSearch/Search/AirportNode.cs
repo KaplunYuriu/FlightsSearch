@@ -32,6 +32,11 @@ namespace FlightsSearch.Search
             return _edges;
         }
 
+        public override string ToString()
+        {
+            return Data.ToString();
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())

@@ -21,5 +21,7 @@ namespace Graph.Entities
         {
             Data = data;
         }
+
+        public abstract override string ToString();
     }
 }
