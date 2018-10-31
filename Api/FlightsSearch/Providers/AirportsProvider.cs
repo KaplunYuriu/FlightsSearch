@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlightsSearch.Entities;
 using FlightsSearch.External.Api;
+using FlightsSearch.Infrastructure;
 using FlightsSearch.Infrastructure.Caching;
 
 namespace FlightsSearch.Providers
@@ -27,7 +28,7 @@ namespace FlightsSearch.Providers
 
             if (cacheElement == null)
             {
-                var airports = await _flightsApi.GetAirports(alias);
+                var airports = await FailSafe.TryTwice(() => _flightsApi.GetAirports(alias));
 
                 if (!airports.Any())
                     return null;

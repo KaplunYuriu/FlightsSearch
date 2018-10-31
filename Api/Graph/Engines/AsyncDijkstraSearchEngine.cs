@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Graph.Entities;
@@ -39,6 +40,10 @@ namespace Graph.Engines
 
         private async Task ProcessNodes()
         {
+            var log = new Action<string>((message) =>
+                _logger.Debug($"Dijsktra Log: {message}"));
+
+
             _nodeVisits = 0;
 
             _resultMap.Start.MinCostToStart = 0;
@@ -48,7 +53,7 @@ namespace Graph.Engines
                 _resultMap.Start
             };
 
-            _logger.Debug($"Starting search from `{_resultMap.Start}` to {_resultMap.End}.");
+            log($"Starting search from `{_resultMap.Start}` to {_resultMap.End}.");
 
             do
             {
@@ -56,16 +61,16 @@ namespace Graph.Engines
                 prioQueue = prioQueue.OrderBy(x => x.MinCostToStart.Value).ToList();
 
                 var node = prioQueue.First();
-                _logger.Debug($"Current node is `{node}`. Queue size: `{prioQueue.Count}`");
+                log($"Current node is `{node}`. Queue size: `{prioQueue.Count}`");
 
                 prioQueue.Remove(node);
                 foreach (var edge in await node.GetEdges())
                 {
-                    _logger.Debug($"Current edge is `{edge.ConnectedNode.Data}` for node `{node}`.");
+                    log($"Current edge is `{edge.ConnectedNode.Data}` for node `{node}`.");
                     var childNode = edge.ConnectedNode;
                     if (childNode == null || childNode.Visited)
                     {
-                        _logger.Debug($"Edge `{edge.ConnectedNode.Data}` has been visited already.");
+                        log($"Edge `{edge.ConnectedNode.Data}` has been visited already.");
                         continue;
                     }
 
@@ -74,7 +79,7 @@ namespace Graph.Engines
                     {
                         childNode.MinCostToStart = node.MinCostToStart + edge.Cost;
                         childNode.NearestToStart = node;
-                        _logger.Debug($"Adding edge `{edge.ConnectedNode.Data}` from node `{node}`.");
+                        log($"Adding edge `{edge.ConnectedNode.Data}` from node `{node}`.");
                         if (!prioQueue.Contains(childNode))
                             prioQueue.Add(childNode);
                     }
@@ -84,7 +89,7 @@ namespace Graph.Engines
 
                 if (node.Equals(_resultMap.End))
                 {
-                    _logger.Debug($"Found solution. Nodes visited: `{_nodeVisits}`.");
+                    log($"Found solution. Nodes visited: `{_nodeVisits}`.");
                     _resultMap.End = node;
                     return;
                 }
